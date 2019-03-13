@@ -45,6 +45,7 @@ public class PlayerInput : MonoBehaviour
         triggerAxis = "J" + controllerNumber + "Trigger";
     }
 
+    // todo doing something to handle launch force
     bool ButtonIsDown(Button button)
     {
         switch(button)

@@ -56,4 +56,14 @@ public class PlayerControllerAssigner : MonoBehaviour
 
         return playerRes;
     }
+
+    public PlayerPanel[] GetListPlayerPanel()
+    {
+        return listPlayerPanel;
+    }
+
+    public List<int> GetListAssignedControllers()
+    {
+        return listAssignedControllers;
+    }
 }

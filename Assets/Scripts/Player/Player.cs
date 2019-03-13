@@ -8,11 +8,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Color color;
 
-    public PlayerInput input { get; private set; }
+    private PlayerInput input;
 
     void Awake()
     {
         input = GetComponent<PlayerInput>();
+    }
+
+    public void SetControllerNumber(int controller)
+    {
+        input.SetControllerNumber(controller);
     }
 
     public PlayerInput GetPlayerInput()

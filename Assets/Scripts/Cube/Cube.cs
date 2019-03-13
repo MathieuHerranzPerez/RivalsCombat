@@ -5,10 +5,9 @@ public class Cube : MonoBehaviour
 {
     public static List<Cube> listAllCube { get; private set; }
 
-    public int playerNumber { get; private set; }
-
     public PlayerInput input { get; private set; }
 
+    public int playerNumber { get; private set; }
     public Player player { get; private set; }
     public bool isAlive { get; private set; }
 
@@ -33,8 +32,6 @@ public class Cube : MonoBehaviour
         playerNumber = player.playerNumber;
         input = player.GetPlayerInput();
     }
-
-
 
 
     public void TakeDamageFormBullet(float dmgAmount, Bullet bullet)
