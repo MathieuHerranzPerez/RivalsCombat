@@ -48,10 +48,23 @@ public class PlayerInput : MonoBehaviour
         triggerAxis = "J" + controllerNumber + "Trigger";
     }
 
-    // todo doing something to handle launch force
-    public bool IsButtonDown (Button button)       // pas dingue ... marche mal ?
+    public bool IsButtonDown (Button button)
     {
         switch(button)
+        {
+            case Button.A:
+                return Input.GetButtonDown(aBtn);
+            case Button.B:
+                return Input.GetButtonDown(bBtn);
+            case Button.X:
+                return Input.GetButtonDown(xBtn);
+        }
+        return false;
+    }
+
+    public bool IsButton(Button button)
+    {
+        switch (button)
         {
             case Button.A:
                 return Input.GetButton(aBtn);
@@ -59,6 +72,20 @@ public class PlayerInput : MonoBehaviour
                 return Input.GetButton(bBtn);
             case Button.X:
                 return Input.GetButton(xBtn);
+        }
+        return false;
+    }
+
+    public bool IsButtonUp(Button button)
+    {
+        switch (button)
+        {
+            case Button.A:
+                return Input.GetButtonUp(aBtn);
+            case Button.B:
+                return Input.GetButtonUp(bBtn);
+            case Button.X:
+                return Input.GetButtonUp(xBtn);
         }
         return false;
     }
