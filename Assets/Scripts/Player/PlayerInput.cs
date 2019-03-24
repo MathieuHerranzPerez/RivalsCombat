@@ -7,8 +7,9 @@ public class PlayerInput : MonoBehaviour
 
     private string horizontalAxis;
     private string verticalAxis;
-    private string aBtn;
-    private string bBtn;
+    public string aBtn { get; private set; }
+    public string bBtn { get; private set; }
+    public string xBtn { get; private set; }
     private string triggerAxis;
     private int controllerNumber;
 
@@ -19,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     {
         A,
         B,
+        X,
     }
 
     void Awake()
@@ -42,11 +44,12 @@ public class PlayerInput : MonoBehaviour
         verticalAxis = "J" + controllerNumber + "Vertical";
         aBtn = "J" + controllerNumber + "A";
         bBtn = "J" + controllerNumber + "B";
+        xBtn = "J" + controllerNumber + "X";
         triggerAxis = "J" + controllerNumber + "Trigger";
     }
 
     // todo doing something to handle launch force
-    bool ButtonIsDown(Button button)
+    public bool IsButtonDown (Button button)       // pas dingue ... marche mal ?
     {
         switch(button)
         {
@@ -54,6 +57,8 @@ public class PlayerInput : MonoBehaviour
                 return Input.GetButton(aBtn);
             case Button.B:
                 return Input.GetButton(bBtn);
+            case Button.X:
+                return Input.GetButton(xBtn);
         }
         return false;
     }

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerPanel : MonoBehaviour
 {
     public Player player;
-    public bool HasControllerAssigned { get; private set; }
+    public bool hasControllerAssigned { get; private set; }
 
     public int playerNumber { get { return player.playerNumber; }}
 
@@ -12,40 +11,59 @@ public class PlayerPanel : MonoBehaviour
 
     [Header("UI")]
     [SerializeField]
-    private GameObject imgPressAGO;
+    private GameObject imgPressAGO = default;
+    [SerializeField]
+    private GameObject imgPressXGO = default;
+    [SerializeField]
+    private GameObject imgReadyGO = default;
 
     void Awake()
     {
-        HasControllerAssigned = false;
+        hasControllerAssigned = false;
     }
 
     void Update()
     {
-        if(HasControllerAssigned)
+        if(hasControllerAssigned)
         {
-            if (Input.GetButtonDown("J" + playerNumber + "A"))
+            //if (Input.GetButtonDown("J" + playerNumber + "A"))
+            if (Input.GetButtonDown(player.GetPlayerInput().xBtn))
             {
-                isPlayerReady = true;
+                ToggleReady();
             }
         }
     }
 
     public bool IsReady()
     {
-        //return !HasControllerAssigned ? false : cubeSelectionPanel.IsReady;
-        return !HasControllerAssigned ? true : isPlayerReady;
+        return !hasControllerAssigned ? true : isPlayerReady;
     }
 
     public Player AssignController(int controller)
     {
         Debug.Log("Setting player to controller : " + controller); // affD
         player.SetControllerNumber(controller);
-        HasControllerAssigned = true;
+        hasControllerAssigned = true;
 
         imgPressAGO.SetActive(false);
+        imgPressXGO.SetActive(true);
 
         return player;
     }
 
 
+    private void ToggleReady()
+    {
+        isPlayerReady = !isPlayerReady;
+        if (isPlayerReady)
+        {
+            imgReadyGO.SetActive(true);
+            imgPressXGO.SetActive(false);
+        }
+        else
+        {
+            imgReadyGO.SetActive(false);
+            imgPressXGO.SetActive(true);
+        }
+    }
 }

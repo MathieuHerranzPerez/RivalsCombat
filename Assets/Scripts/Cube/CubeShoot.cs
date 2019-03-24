@@ -6,13 +6,13 @@ public class CubeShoot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            weapon.TrackFire();
-        }
-        else if(Input.GetButtonUp("Fire1"))
-        {
-            weapon.TrackFire();
-        }
+        //if (Input.GetButton("Fire1"))
+        //{
+        //    weapon.TrackFire();
+        //}
+        //else if(Input.GetButtonUp("Fire1"))
+        //{
+        //    weapon.TrackFire();
+        //}
     }
 }

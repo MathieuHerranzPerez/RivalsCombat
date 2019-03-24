@@ -18,7 +18,7 @@ public class PlayerControllerAssigner : MonoBehaviour
     {
         bool assigned = false;
         int i = 1;
-        while(i <= 4 && !assigned)
+        while(!assigned && i <= 4)
         {
             if (!listAssignedControllers.Contains(i))
             {
@@ -38,9 +38,9 @@ public class PlayerControllerAssigner : MonoBehaviour
 
         int i = 0;
         bool found = false;
-        while(i < listPlayerPanel.Length && !found)
+        while (i < listPlayerPanel.Length && !found)
         {
-            if (!listPlayerPanel[i].HasControllerAssigned)
+            if (!listPlayerPanel[i].hasControllerAssigned)
             {
                 found = true;
             }
@@ -51,8 +51,14 @@ public class PlayerControllerAssigner : MonoBehaviour
         }
 
         Player playerRes = null;
-        if(found)
+        if (found)
             playerRes = listPlayerPanel[i].AssignController(controller);
+
+        //Player playerRes = null;
+        //if (!listPlayerPanel[controller - 1].hasControllerAssigned)
+        //{
+        //    playerRes = listPlayerPanel[controller - 1].AssignController(controller);
+        //}
 
         return playerRes;
     }

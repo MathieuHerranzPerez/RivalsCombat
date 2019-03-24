@@ -47,11 +47,13 @@ public class CubeController : MonoBehaviour
 
         // ---- JUMP ----
         Vector3 _jumpForce = Vector3.zero;
-        if (Input.GetButton("Jump") && canJump)
+        // if (Input.GetButton("Jump") && canJump)
+        if(cube.input.IsButtonDown(PlayerInput.Button.A) && canJump)
         {
             _jumpForce = Vector3.up * jumpForce;
             canJump = false;
         }
+
         if(!canJump)
         {
             time += Time.deltaTime;

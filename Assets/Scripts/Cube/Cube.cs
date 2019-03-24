@@ -11,6 +11,7 @@ public class Cube : MonoBehaviour
     public Player player { get; private set; }
     public bool isAlive { get; private set; }
 
+    private CubeSpawner cubeSpawner;
 
     void Awake()
     {
@@ -31,6 +32,11 @@ public class Cube : MonoBehaviour
         this.player = player;
         playerNumber = player.playerNumber;
         input = player.GetPlayerInput();
+    }
+
+    public void SetCubeSpawner(CubeSpawner cubeSpawner)
+    {
+        this.cubeSpawner = cubeSpawner;
     }
 
 
