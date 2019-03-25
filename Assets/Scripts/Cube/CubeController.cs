@@ -2,6 +2,7 @@
 
 [RequireComponent(typeof(CubeMotor))]
 [RequireComponent(typeof(Cube))]
+[RequireComponent(typeof(Animator))]
 public class CubeController : MonoBehaviour
 {
     private Cube cube;
@@ -13,9 +14,12 @@ public class CubeController : MonoBehaviour
     [SerializeField]
     private float timeToJump = 0.15f;
 
+    // ---- INTERN ----
+
     private CubeMotor motor;
     private bool canJump = true;
     private float time = 0f;
+    private Animator animator;
 
     void Awake()
     {
@@ -25,19 +29,15 @@ public class CubeController : MonoBehaviour
     void Start()
     {
         motor = GetComponent<CubeMotor>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        //float xMov = Input.GetAxisRaw("Horizontal");
-        //float yMov = Input.GetAxisRaw("Vertical");
         float xMov = cube.input.Horizontal;
         float yMov = cube.input.Vertical;
 
         Vector3 moveHorizontal = Vector3.right * xMov;  // (1, 0, 0) world space
-        Vector3 moveVertical = Vector3.up * yMov;       // (0, 1, 0) world space
-
-
         // final movement vector
         Vector3 velocity = (moveHorizontal).normalized * speed;
 
@@ -63,5 +63,22 @@ public class CubeController : MonoBehaviour
 
         // apply the jump force
         motor.Jump(_jumpForce);
+    }
+
+    public void ApplyForce(Vector3 force)
+    {
+        motor.Impulse(force);
+    }
+
+    public void ImmobilizeForFire()
+    {
+        motor.CanMove(false);
+        animator.SetBool("IsAiming", true);
+    }
+
+    public void LetFree()
+    {
+        motor.CanMove(true);
+        animator.SetBool("IsAiming", false);
     }
 }

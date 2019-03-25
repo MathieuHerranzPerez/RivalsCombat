@@ -23,6 +23,6 @@ public abstract class CubeWeapon : MonoBehaviour
         this.cube = cube;
     }
 
-    public abstract void TrackFire();
+    public abstract void TrackFire(float triggerValue, bool isFireBtnDown, bool isFireBtn, bool isFireBtnUp);
     protected abstract void Fire();
 }

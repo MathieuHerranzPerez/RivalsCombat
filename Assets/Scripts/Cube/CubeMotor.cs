@@ -3,24 +3,55 @@
 [RequireComponent(typeof(Rigidbody))]
 public class CubeMotor : MonoBehaviour
 {
-
-    private Vector3 velocity = Vector3.zero;
+    // ---- INTERN ----
+    private Vector3 velocityForMovement = Vector3.zero;
     private Vector3 jumpForce = Vector3.zero;
     private Rigidbody cubeRigidbody;
+    private Quaternion previousRotation = Quaternion.identity;
+    private bool isFlying = true;
+    private bool canMove = true;
+    private Vector3 preFreezeVelocity = Vector3.zero;
+    private Vector3 preFreezeRVelocity = Vector3.zero;
+    private Quaternion baseAimRotation;
+
 
     void Start()
     {
         cubeRigidbody = GetComponent<Rigidbody>();
+        baseAimRotation = cubeRigidbody.rotation;
     }
 
     void FixedUpdate()
     {
-        PerformMovement();
+        if(canMove)
+            PerformMovement();
+        DisplayRigidBodyVelocity();
+    }
+
+    void LateUpdate()
+    {
+        if (isFlying)
+            SlowRigidBodyMovement();
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        isFlying = false;
+    }
+
+    void OnCollisionStay(Collision other)
+    {
+        isFlying = false;
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        isFlying = true;
     }
 
     public void Move(Vector3 velocity)
     {
-        this.velocity = velocity;
+        this.velocityForMovement = velocity;
     }
 
     public void Jump(Vector3 jumpForce)
@@ -28,12 +59,51 @@ public class CubeMotor : MonoBehaviour
         this.jumpForce = jumpForce;
     }
 
+    public void Impulse(Vector3 force)
+    {
+        cubeRigidbody.AddForce(force, ForceMode.Impulse);
+    }
+
+    public void CanMove(bool canMove)
+    {
+        if (this.canMove != canMove)
+        {
+            if (!canMove)
+            {
+                // store the current velocity
+                preFreezeVelocity = cubeRigidbody.velocity;
+                preFreezeRVelocity = cubeRigidbody.angularVelocity;
+                // turn off the gravity
+                cubeRigidbody.useGravity = false;
+                // freeze velocity
+                cubeRigidbody.velocity = Vector3.zero;
+                // freeze rotation velocity
+                cubeRigidbody.angularVelocity = Vector3.zero;
+                // store the rotation
+                previousRotation = cubeRigidbody.rotation;
+                // set the rotation to the base value
+                cubeRigidbody.rotation = baseAimRotation;
+            }
+            else
+            {
+                cubeRigidbody.useGravity = true;
+                // restore previous rotation
+                cubeRigidbody.rotation = previousRotation;
+                // restore the previous velocity
+                cubeRigidbody.velocity = preFreezeVelocity;
+                cubeRigidbody.angularVelocity = preFreezeRVelocity;
+            }
+
+            this.canMove = canMove;
+        }
+    }
+
     private void PerformMovement()
     {
         // if want to move
-        if(velocity != Vector3.zero)
+        if(velocityForMovement != Vector3.zero)
         {
-            cubeRigidbody.MovePosition(cubeRigidbody.position + velocity * Time.fixedDeltaTime);
+            cubeRigidbody.MovePosition(cubeRigidbody.position + velocityForMovement * Time.fixedDeltaTime);
         }
         // if want to jump
         if (jumpForce != Vector3.zero)
@@ -42,5 +112,52 @@ public class CubeMotor : MonoBehaviour
             currentForce += jumpForce;
             cubeRigidbody.AddForce(currentForce, ForceMode.Impulse);
         }
+    }
+
+    private void SlowRigidBodyMovement()
+    {
+        float coef = 0.02f;
+        // tanslation
+        float velocityX = CalculVelocityReduced(cubeRigidbody.velocity.x, velocityForMovement.x / 60);
+        Vector3 newVelocity = new Vector3(velocityX, cubeRigidbody.velocity.y, cubeRigidbody.velocity.z);
+        cubeRigidbody.velocity = newVelocity;
+
+        // rotation
+        float velocityRX = CalculVelocityReduced(cubeRigidbody.angularVelocity.x, coef);
+        float velocityRY = CalculVelocityReduced(cubeRigidbody.angularVelocity.y, coef);
+        float velocityRZ = CalculVelocityReduced(cubeRigidbody.angularVelocity.z, coef);
+        Vector3 newVelocityR = new Vector3(velocityRX, velocityRY, velocityRZ);
+        cubeRigidbody.angularVelocity = newVelocityR;
+    }
+
+    private void DisplayRigidBodyVelocity()
+    {
+        Debug.DrawRay(transform.position, cubeRigidbody.velocity, Color.red);
+    }
+
+    private float CalculVelocityReduced(float initialVelocity, float coef)
+    {
+        float newVelocity = 0f;
+        if (initialVelocity > 0 && coef > 0)
+        {
+            newVelocity = (initialVelocity - coef) >= 0 ? initialVelocity - coef : 0f;
+        }
+        else if (initialVelocity < 0 && coef > 0)
+        {
+            newVelocity = (initialVelocity + coef) <= 0 ? initialVelocity + coef : 0f;
+        }
+        else if(coef < 0.01 || coef > -0.01)        // coef == 0
+        {
+            if (initialVelocity > 0)
+            {
+                newVelocity = (initialVelocity - 0.02f) >= 0 ? initialVelocity - 0.02f : 0f;
+            }
+            else if (initialVelocity < 0)
+            {
+                newVelocity = (initialVelocity + 0.02f) <= 0 ? initialVelocity + 0.02f : 0f;
+            }
+        }
+
+        return newVelocity;
     }
 }

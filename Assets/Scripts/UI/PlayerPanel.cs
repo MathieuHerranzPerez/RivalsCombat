@@ -27,7 +27,7 @@ public class PlayerPanel : MonoBehaviour
         if(hasControllerAssigned)
         {
             //if (Input.GetButtonDown("J" + playerNumber + "A"))
-            if (Input.GetButtonDown(player.GetPlayerInput().xBtn))
+            if (player.GetPlayerInput().IsButtonDown(PlayerInput.Button.X))
             {
                 ToggleReady();
             }

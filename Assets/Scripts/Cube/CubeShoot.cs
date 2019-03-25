@@ -7,30 +7,64 @@ public class CubeShoot : MonoBehaviour
 
     // ---- INTER ----
     private Cube cube;
+    private Quaternion rotation;
+    private bool isShooting = false;
 
     void Start()
     {
         cube = GetComponent<Cube>();
         weapon.SetCube(cube);
+        rotation = weapon.transform.rotation;
     }
 
     void Update()
     {
-        //if (Input.GetButton("Fire1"))
-        //{
-        //    weapon.TrackFire();
-        //}
-        //else if (Input.GetButtonUp("Fire1"))
-        //{
-        //    weapon.TrackFire();
-        //}
-        if (cube.input.IsButtonDown(PlayerInput.Button.B) || cube.input.IsButton(PlayerInput.Button.B))
+        // if the player clic on the fire btn
+        if(cube.input.IsButtonDown(PlayerInput.Button.B) || cube.input.RightTrigger > 0.05f)
         {
-            weapon.TrackFire();
+            cube.GetCubeController().ImmobilizeForFire();
+            isShooting = true;
         }
         else if(cube.input.IsButtonUp(PlayerInput.Button.B))
         {
-            weapon.TrackFire();
+            cube.GetCubeController().LetFree();
+            rotation = weapon.transform.rotation;
+            isShooting = false;
         }
+
+        weapon.TrackFire(cube.input.RightTrigger, cube.input.IsButtonDown(PlayerInput.Button.B), cube.input.IsButton(PlayerInput.Button.B), cube.input.IsButtonUp(PlayerInput.Button.B));
+
+        DisplayWeaponDirection(); // affD
+    }
+
+    void LateUpdate()
+    {
+        if (!isShooting)
+        {
+            // don't rotate the weapon
+            weapon.transform.rotation = rotation;
+        }
+        else
+        {
+            Aim();
+        }
+    }
+
+    private void Aim()
+    {
+        float x = - cube.input.Horizontal;
+        float y = - cube.input.Vertical;
+        if (x != 0.0 || y != 0.0)
+        {
+            float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+            // cube.GetCubeController().RotateForAim(angle);
+            weapon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
+
+    private void DisplayWeaponDirection()
+    {
+        Vector3 dir = weapon.firePoint.position - transform.position;
+        Debug.DrawRay(transform.position, dir * 2, Color.green);
     }
 }
