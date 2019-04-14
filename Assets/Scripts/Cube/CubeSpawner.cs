@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-
+    [SerializeField]
+    private float timeToSpawn = 3f;
     [SerializeField]
     private GameObject cubePrefab = default;
     [SerializeField]
@@ -13,6 +15,7 @@ public class CubeSpawner : MonoBehaviour
 
     // ---- INTERN ----
     private List<Player> listPlayer = new List<Player>();
+    private int spawnIndex = 0;
 
     public void AddPlayer(Player player)
     {
@@ -27,27 +30,45 @@ public class CubeSpawner : MonoBehaviour
             Debug.LogError("Spawn point list is to small : there is more players than spawn points");
         }
 
-        int i = 0;
         foreach (Player p in listPlayer)
         {
-            // instantiate a cube
-            GameObject cubeCloneGO = (GameObject)Instantiate(cubePrefab, listSpawnPoint[i].position, Quaternion.identity, cubeContainerGO.transform);
-            Cube cube = cubeCloneGO.GetComponent<Cube>();
-            ++i;
-            // give it a cubeSpawner
-            cube.SetCubeSpawner(this);
-
-            // give it the player
-            cube.SetPlayer(p);
-
-            // change its color
-            // TODO
+            Spawn(p);
         }
     }
 
+    public void NotifyDeath(Cube cube)
+    {
+        MultipleTargetCamera.Instance.RemoveTarget(cube.transform);
+        StartCoroutine(PreparePlayerSpawn(cube.player));
+    }
 
-    //private Transform GetSpawnPoint()
-    //{
+    private IEnumerator PreparePlayerSpawn(Player p)
+    {
+        float time = 0f;
+        while(time < timeToSpawn)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        Spawn(p);
+    }
 
-    //}
+    private void Spawn(Player p)
+    {
+        // instantiate a cube
+        GameObject cubeCloneGO = (GameObject)Instantiate(cubePrefab, listSpawnPoint[spawnIndex].position, Quaternion.identity, cubeContainerGO.transform);
+        spawnIndex = (spawnIndex == listSpawnPoint.Count - 1) ? 0 : spawnIndex + 1;
+        Cube cube = cubeCloneGO.GetComponent<Cube>();
+        // give it a cubeSpawner
+        cube.SetCubeSpawner(this);
+
+        // give it the player
+        cube.SetPlayer(p);
+
+        // give it to the camera
+        MultipleTargetCamera.Instance.AddTarget(cube.transform);
+
+        // change its color
+        // TODO
+    }
 }

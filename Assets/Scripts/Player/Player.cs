@@ -8,8 +8,7 @@ public class Player : MonoBehaviour
     private int num = 0;
     public bool isPlayed { get; private set; }
 
-    [SerializeField]
-    private Color color;
+    public Color color { get; private set; }
 
     private PlayerInput input;
 

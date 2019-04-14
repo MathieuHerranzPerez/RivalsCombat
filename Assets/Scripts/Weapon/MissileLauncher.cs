@@ -3,13 +3,13 @@
 public class MissileLauncher : CubeWeapon
 {
     [SerializeField]
-    private float minLaunchForce = 10f;
+    private float minLaunchForce = 5f;
     [SerializeField]
     private float maxLaunchForce = 30f;
     [SerializeField]
     private float maxChargeTime = 1.5f;
     [SerializeField]
-    private float recoilForceDiv = 10f;
+    private float recoilForceDiv = 6f;
 
     // ---- INTERN ----
     private float currentLaunchForce;

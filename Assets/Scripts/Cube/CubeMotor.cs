@@ -3,6 +3,9 @@
 [RequireComponent(typeof(Rigidbody))]
 public class CubeMotor : MonoBehaviour
 {
+    [SerializeField]
+    private Animator animator = default;
+
     // ---- INTERN ----
     private Vector3 velocityForMovement = Vector3.zero;
     private Vector3 jumpForce = Vector3.zero;
@@ -14,6 +17,7 @@ public class CubeMotor : MonoBehaviour
     private Vector3 preFreezeRVelocity = Vector3.zero;
     private Quaternion baseAimRotation;
 
+    private float previousYVelocity;
 
     void Start()
     {
@@ -25,6 +29,16 @@ public class CubeMotor : MonoBehaviour
     {
         if(canMove)
             PerformMovement();
+
+        if(isFlying)
+        {
+            if(previousYVelocity >= 0 && cubeRigidbody.velocity.y <= 0)
+            {
+                animator.SetTrigger("Falling");
+            }
+            previousYVelocity = cubeRigidbody.velocity.y;
+        }
+
         DisplayRigidBodyVelocity();
     }
 
@@ -36,17 +50,28 @@ public class CubeMotor : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        isFlying = false;
+        if (other.gameObject.tag == "Ground" && isFlying)
+        {
+            isFlying = false;
+            animator.SetTrigger("Landing");
+        }
     }
 
     void OnCollisionStay(Collision other)
     {
-        isFlying = false;
+        if (other.gameObject.tag == "Ground")
+        {
+            isFlying = false;
+        }
     }
 
     void OnCollisionExit(Collision other)
     {
-        isFlying = true;
+        if (other.gameObject.tag == "Ground")
+        {
+            isFlying = true;
+            animator.ResetTrigger("Landing");
+        }
     }
 
     public void Move(Vector3 velocity)
@@ -71,27 +96,27 @@ public class CubeMotor : MonoBehaviour
             if (!canMove)
             {
                 // store the current velocity
-                preFreezeVelocity = cubeRigidbody.velocity;
-                preFreezeRVelocity = cubeRigidbody.angularVelocity;
+           //     preFreezeVelocity = cubeRigidbody.velocity;
+           //     preFreezeRVelocity = cubeRigidbody.angularVelocity;
                 // turn off the gravity
                 cubeRigidbody.useGravity = false;
                 // freeze velocity
                 cubeRigidbody.velocity = Vector3.zero;
                 // freeze rotation velocity
-                cubeRigidbody.angularVelocity = Vector3.zero;
+           //     cubeRigidbody.angularVelocity = Vector3.zero;
                 // store the rotation
-                previousRotation = cubeRigidbody.rotation;
+           //     previousRotation = cubeRigidbody.rotation;
                 // set the rotation to the base value
-                cubeRigidbody.rotation = baseAimRotation;
+           //     cubeRigidbody.rotation = baseAimRotation;
             }
             else
             {
                 cubeRigidbody.useGravity = true;
                 // restore previous rotation
-                cubeRigidbody.rotation = previousRotation;
+           //     cubeRigidbody.rotation = previousRotation;
                 // restore the previous velocity
                 cubeRigidbody.velocity = preFreezeVelocity;
-                cubeRigidbody.angularVelocity = preFreezeRVelocity;
+           //     cubeRigidbody.angularVelocity = preFreezeRVelocity;
             }
 
             this.canMove = canMove;

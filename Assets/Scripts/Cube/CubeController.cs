@@ -2,7 +2,6 @@
 
 [RequireComponent(typeof(CubeMotor))]
 [RequireComponent(typeof(Cube))]
-[RequireComponent(typeof(Animator))]
 public class CubeController : MonoBehaviour
 {
     private Cube cube;
@@ -14,12 +13,17 @@ public class CubeController : MonoBehaviour
     [SerializeField]
     private float timeToJump = 0.15f;
 
+    [SerializeField]
+    private GameObject CursorUIGO = default;
+    [SerializeField]
+    private Animator animator = default;
+
     // ---- INTERN ----
 
     private CubeMotor motor;
     private bool canJump = true;
     private float time = 0f;
-    private Animator animator;
+
 
     void Awake()
     {
@@ -29,7 +33,6 @@ public class CubeController : MonoBehaviour
     void Start()
     {
         motor = GetComponent<CubeMotor>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -47,11 +50,12 @@ public class CubeController : MonoBehaviour
 
         // ---- JUMP ----
         Vector3 _jumpForce = Vector3.zero;
-        // if (Input.GetButton("Jump") && canJump)
         if(cube.input.IsButton(PlayerInput.Button.A) && canJump)
         {
             _jumpForce = Vector3.up * jumpForce;
             canJump = false;
+
+            animator.SetTrigger("Jumping");
         }
 
         if(!canJump)
@@ -73,12 +77,14 @@ public class CubeController : MonoBehaviour
     public void ImmobilizeForFire()
     {
         motor.CanMove(false);
-        animator.SetBool("IsAiming", true);
+        CursorUIGO.SetActive(true);
+        animator.SetTrigger("Aiming");
     }
 
     public void LetFree()
     {
         motor.CanMove(true);
-        animator.SetBool("IsAiming", false);
+        CursorUIGO.SetActive(false);
+        animator.SetTrigger("StopAiming");
     }
 }

@@ -3,9 +3,19 @@
 public class Missile : Bullet
 {
     [SerializeField]
-    private float explosionForce = 50f;
+    private float explosionForce = 10f;
     [SerializeField]
-    private float explosionRadius = 100f;
+    private float explosionRadius = 5f;
+    [SerializeField]
+    private GameObject explosionEffectPrefab;
+
+    [Header("Camera shake")]
+    [SerializeField]
+    private float camShakeMagnitude = 0.1f;
+    [SerializeField]
+    private float camShakeRotation = 0.1f;
+    [SerializeField]
+    private float camShakeTime = 0.2f;
 
     void Start()
     {
@@ -14,28 +24,47 @@ public class Missile : Bullet
 
     void OnTriggerEnter(Collider other)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        Explode();
+    }
 
+    private void Explode() 
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider collider in colliders)
         {
             Rigidbody targetRigidBody = collider.GetComponent<Rigidbody>();
             if (targetRigidBody)
             {
-                targetRigidBody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
                 Cube target = targetRigidBody.GetComponent<Cube>();
                 if (target)
                 {
                     float damageAmount = CalculateDamage(targetRigidBody.position);
-                    target.TakeDamageFormBullet(damageAmount, this);
+                    target.TakeDamageFormBullet(damageAmount);
                 }
             }
         }
 
-        explosionParticles.transform.parent = null;
-        explosionParticles.Play();
-        explosionAudio.Play();
+        Collider[] collidersToAddForce = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider collider in collidersToAddForce)
+        {
+            Rigidbody targetRigidBody = collider.GetComponent<Rigidbody>();
+            if (targetRigidBody)
+            { 
+                targetRigidBody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            }
+        }
+            
 
-        Destroy(explosionParticles.gameObject, explosionParticles.main.duration);
+        // effect
+        if (explosionParticles != null)
+        {
+            explosionParticles.transform.parent = null;
+            explosionParticles.Play();
+            explosionAudio.Play();
+            Destroy(explosionParticles.gameObject, explosionParticles.main.duration);
+        }
+        CameraShake.Instance.Shake(0.2f, 0.1f, 0.1f);
+
         Destroy(gameObject);
     }
 
@@ -49,5 +78,12 @@ public class Missile : Bullet
         damage = Mathf.Max(0f, damage);
 
         return damage;
+    }
+
+    void OnDrawGizmos()
+    {
+        // Display the explosion radius when selected
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

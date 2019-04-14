@@ -10,6 +10,8 @@ public class CubeShoot : MonoBehaviour
     private Quaternion rotation;
     private bool isShooting = false;
 
+    private bool isB = false;
+
     void Start()
     {
         cube = GetComponent<Cube>();
@@ -22,12 +24,17 @@ public class CubeShoot : MonoBehaviour
         // if the player clic on the fire btn
         if(cube.input.IsButtonDown(PlayerInput.Button.B) || cube.input.RightTrigger > 0.05f)
         {
-            cube.GetCubeController().ImmobilizeForFire();
+            isB = cube.input.IsButtonDown(PlayerInput.Button.B);
+            if (!isShooting)
+            {
+                cube.GetCubeController().ImmobilizeForFire();
+            }
             isShooting = true;
         }
-        else if(cube.input.IsButtonUp(PlayerInput.Button.B))
+        else if((isB && cube.input.IsButtonUp(PlayerInput.Button.B)) || (!isB && cube.input.RightTrigger < 0.05f))
         {
-            cube.GetCubeController().LetFree();
+            if(isShooting)
+                cube.GetCubeController().LetFree();
             rotation = weapon.transform.rotation;
             isShooting = false;
         }
