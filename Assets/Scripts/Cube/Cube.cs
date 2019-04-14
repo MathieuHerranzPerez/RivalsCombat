@@ -78,4 +78,9 @@ public class Cube : MonoBehaviour
         // TODO animation
         destructable.Destroy(player.color);
     }
+
+    public int GetMaxLifePoint()
+    {
+        return maxLifePoint;
+    }
 }

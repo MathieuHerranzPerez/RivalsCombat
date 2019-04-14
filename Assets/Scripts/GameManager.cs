@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Players : " + Players.Instance);
         InitCubeSpawner();
     }
 

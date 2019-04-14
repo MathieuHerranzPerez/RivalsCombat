@@ -26,7 +26,7 @@ public class MultipleTargetCamera : MonoBehaviour
     private List<Transform> listTarget = new List<Transform>();
     private Vector3 velocity;
 
-    void Start()
+    void Awake()
     {
         Instance = this;
     }
@@ -56,7 +56,14 @@ public class MultipleTargetCamera : MonoBehaviour
     {
         if (listTarget.Count > 1)
         {
-            float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreaterDistanceBetweenTargets() / zoomLimiter);
+            float distanceX = GetGreaterDistanceXBetweenTargets();
+            float distanceY = GetGreaterDistanceYBetweenTargets();
+            float newZoom = 0;
+            if (distanceX > distanceY)
+                newZoom = Mathf.Lerp(maxZoom, minZoom, distanceX / zoomLimiter);
+            else
+                newZoom = Mathf.Lerp(maxZoom, minZoom, (distanceY * 1.5f) / zoomLimiter);
+
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
         }
         else
@@ -74,16 +81,24 @@ public class MultipleTargetCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
     }
 
-    private float GetGreaterDistanceBetweenTargets()
+    private float GetGreaterDistanceXBetweenTargets()
+    {
+        return GetBounds().size.x;
+    }
+
+    private float GetGreaterDistanceYBetweenTargets()
+    {
+        return GetBounds().size.y;
+    }
+
+    private Bounds GetBounds()
     {
         Bounds bounds = new Bounds(listTarget[0].position, Vector3.zero);
-
-        foreach(Transform t in listTarget)
+        foreach (Transform t in listTarget)
         {
             bounds.Encapsulate(t.position);
         }
-
-        return bounds.size.x;
+        return bounds;
     }
 
     private Vector3 GetCenterPoint()

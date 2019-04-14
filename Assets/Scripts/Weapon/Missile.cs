@@ -63,7 +63,7 @@ public class Missile : Bullet
             explosionAudio.Play();
             Destroy(explosionParticles.gameObject, explosionParticles.main.duration);
         }
-        CameraShake.Instance.Shake(0.2f, 0.1f, 0.1f);
+        CameraShake.Instance.Shake(camShakeTime, camShakeMagnitude, camShakeRotation);
 
         Destroy(gameObject);
     }

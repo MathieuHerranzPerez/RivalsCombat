@@ -18,7 +18,6 @@ public class CameraShake : MonoBehaviour
     private IEnumerator ShakeCam(float duration, float translationMagnitude, float rotationMagnitude)
     {
         Vector3 originalPos = transform.localPosition;
-        Quaternion originalRot = transform.rotation;
 
         float time = 0f;
         while(time < duration)
@@ -30,13 +29,13 @@ public class CameraShake : MonoBehaviour
             float rotZ = Random.Range(-1f, 1f) * rotationMagnitude;
 
             transform.localPosition = new Vector3(x, y, originalPos.z);
-            transform.Rotate(new Vector3(originalRot.x, rotY, rotZ));
+            transform.Rotate(new Vector3(0f, rotY, rotZ));
 
             time += Time.deltaTime;
             yield return null;
         }
 
         transform.localPosition = originalPos;
-        transform.rotation = originalRot;
+        transform.rotation = Quaternion.identity;
     }
 }

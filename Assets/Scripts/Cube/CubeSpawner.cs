@@ -58,6 +58,7 @@ public class CubeSpawner : MonoBehaviour
         // instantiate a cube
         GameObject cubeCloneGO = (GameObject)Instantiate(cubePrefab, listSpawnPoint[spawnIndex].position, Quaternion.identity, cubeContainerGO.transform);
         spawnIndex = (spawnIndex == listSpawnPoint.Count - 1) ? 0 : spawnIndex + 1;
+        
         Cube cube = cubeCloneGO.GetComponent<Cube>();
         // give it a cubeSpawner
         cube.SetCubeSpawner(this);

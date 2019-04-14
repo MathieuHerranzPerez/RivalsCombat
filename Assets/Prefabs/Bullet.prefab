@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 385439077}
   - component: {fileID: 385439078}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 405288538}
   - component: {fileID: 405288540}
   - component: {fileID: 405288539}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4762,7 +4762,7 @@ GameObject:
   - component: {fileID: 1628561885}
   - component: {fileID: 1628561887}
   - component: {fileID: 1628561886}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9460,7 +9460,7 @@ GameObject:
   - component: {fileID: 2441988762572793926}
   - component: {fileID: 6232322489437162966}
   - component: {fileID: 1167860040269135708}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14161,7 +14161,7 @@ GameObject:
   - component: {fileID: 4725318106930930728}
   - component: {fileID: 4468046717289963619}
   - component: {fileID: 3136875855499504009}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14259,6 +14259,10 @@ MonoBehaviour:
   maxLifeTime: 5
   explosionForce: 400
   explosionRadius: 3
+  explosionEffectPrefab: {fileID: 0}
+  camShakeMagnitude: 0.1
+  camShakeRotation: 0.1
+  camShakeTime: 0.2
 --- !u!54 &3136875855499504009
 Rigidbody:
   m_ObjectHideFlags: 0
