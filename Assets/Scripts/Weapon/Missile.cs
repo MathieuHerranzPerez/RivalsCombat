@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Missile : Bullet
 {
     [SerializeField]
@@ -17,9 +18,20 @@ public class Missile : Bullet
     [SerializeField]
     private float camShakeTime = 0.2f;
 
+    // ---- INTERN ----
+    private Rigidbody rBody;
+
     void Start()
     {
+        rBody = GetComponent<Rigidbody>();
         Destroy(gameObject, maxLifeTime);
+    }
+
+    void Update()
+    {
+        // rotate the missile to follow its gravity curve
+        float angle = Mathf.Atan2(rBody.velocity.y, rBody.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     void OnTriggerEnter(Collider other)
@@ -56,12 +68,10 @@ public class Missile : Bullet
             
 
         // effect
-        if (explosionParticles != null)
+        if(explosionEffectPrefab)
         {
-            explosionParticles.transform.parent = null;
-            explosionParticles.Play();
-            explosionAudio.Play();
-            Destroy(explosionParticles.gameObject, explosionParticles.main.duration);
+            GameObject explosionGO = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
+            Destroy(explosionGO, 1.5f);
         }
         CameraShake.Instance.Shake(camShakeTime, camShakeMagnitude, camShakeRotation);
 
