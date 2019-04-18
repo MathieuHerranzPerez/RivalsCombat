@@ -8,7 +8,7 @@ public class Missile : Bullet
     [SerializeField]
     private float explosionRadius = 5f;
     [SerializeField]
-    private GameObject explosionEffectPrefab;
+    private GameObject explosionEffectPrefab = default;
 
     [Header("Camera shake")]
     [SerializeField]
@@ -34,7 +34,7 @@ public class Missile : Bullet
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
         Explode();
     }

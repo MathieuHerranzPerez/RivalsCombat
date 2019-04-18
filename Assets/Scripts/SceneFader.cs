@@ -89,21 +89,24 @@ public class SceneFader : MonoBehaviour
         }// -- /FADE IN --
 
 
-        while (timeLoadingScreen <= 3f || !operation.isDone)
+        while (timeLoadingScreen <= 2f || !operation.isDone)
         {
-            if (timeLoadingScreen > 3f)
+            if (timeLoadingScreen > 2f)
             {
-                {// -- FADE OUT --
-                    float t = 0f;
-                    while (t < 1f)
-                    {
-                        t += Time.deltaTime;
-                        float alpha = curve.Evaluate(t);
-                        img.color = new Color(0f, 0f, 0f, alpha);
-                        yield return 0;             // skip to the next frame
-                    }
-                }// -- /FADE OUT --
                 operation.allowSceneActivation = true;
+                if (operation.isDone)
+                {
+                    {// -- FADE OUT --
+                        float t = 0f;
+                        while (t < 1f)
+                        {
+                            t += Time.deltaTime;
+                            float alpha = curve.Evaluate(t);
+                            img.color = new Color(0f, 0f, 0f, alpha);
+                            yield return 0;             // skip to the next frame
+                        }
+                    }// -- /FADE OUT --
+                }
             }
             timeLoadingScreen += Time.deltaTime;
             // float progress = Mathf.Clamp01(operation.progress / 0.9f);  // if we want the progress

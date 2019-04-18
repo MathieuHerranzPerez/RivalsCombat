@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MissileLauncher : CubeWeapon
+public class MissileLauncher : ProjectilWeapon
 {
     [SerializeField]
     private float minLaunchForce = 5f;
@@ -20,9 +20,20 @@ public class MissileLauncher : CubeWeapon
 
     void Start()
     {
+        Init();
         chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
         currentLaunchForce = minLaunchForce;
         fired = false;
+    }
+
+    void Update()
+    {
+        ActOnCubeAndTrackFire();
+    }
+
+    void LateUpdate()
+    {
+        Aiming();   // to aim if the player is shooting
     }
 
     protected override void Fire()
@@ -32,7 +43,7 @@ public class MissileLauncher : CubeWeapon
 
         // instantiate and launch the shell
         fired = true;
-        GameObject shellCloneGO = (GameObject) Instantiate(bulletGO, firePoint.position, firePoint.rotation);
+        GameObject shellCloneGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         shellCloneGO.GetComponent<Rigidbody>().velocity = currentLaunchForce * firePoint.forward;
 
         Vector3 heading = cube.transform.position - firePoint.position;

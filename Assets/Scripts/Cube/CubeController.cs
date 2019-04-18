@@ -14,8 +14,6 @@ public class CubeController : MonoBehaviour
     private float timeToJump = 0.15f;
 
     [SerializeField]
-    private GameObject CursorUIGO = default;
-    [SerializeField]
     private Animator animator = default;
 
     // ---- INTERN ----
@@ -77,14 +75,18 @@ public class CubeController : MonoBehaviour
     public void ImmobilizeForFire()
     {
         motor.CanMove(false);
-        CursorUIGO.SetActive(true);
         animator.SetTrigger("Aiming");
     }
 
     public void LetFree()
     {
         motor.CanMove(true);
-        CursorUIGO.SetActive(false);
         animator.SetTrigger("StopAiming");
+    }
+
+    public void Dash(Vector3 direction, float speed)
+    {
+        motor.Dash(direction, speed);
+        animator.SetTrigger("Dashing");
     }
 }

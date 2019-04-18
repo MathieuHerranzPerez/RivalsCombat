@@ -6,7 +6,7 @@ public class MultipleTargetCamera : MonoBehaviour
     public static MultipleTargetCamera Instance { get; private set; }
 
     [SerializeField]
-    private Vector3 offset;
+    private Vector3 offset = new Vector3(0f, 1f, -30f);
     [SerializeField]
     private float smoothTime = 0.5f;
     [SerializeField]
@@ -20,7 +20,7 @@ public class MultipleTargetCamera : MonoBehaviour
 
     [Header("Setup")]
     [SerializeField]
-    private Camera cam;
+    private Camera cam = default;
 
     // ---- INTER ----
     private List<Transform> listTarget = new List<Transform>();

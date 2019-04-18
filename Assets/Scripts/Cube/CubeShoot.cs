@@ -3,70 +3,24 @@
 [RequireComponent(typeof(Cube))]
 public class CubeShoot : MonoBehaviour
 {
-    public CubeWeapon weapon;
+    [Header("Setup")]
+    [SerializeField]
+    private WeaponHolder weaponHolder = default;
 
     // ---- INTER ----
     private Cube cube;
-    private Quaternion rotation;
-    private bool isShooting = false;
-
-    private bool isB = false;
+    private CubeWeapon weapon;
 
     void Start()
     {
         cube = GetComponent<Cube>();
+        weapon = weaponHolder.GetWeapon();
         weapon.SetCube(cube);
-        rotation = weapon.transform.rotation;
     }
 
     void Update()
     {
-        // if the player clic on the fire btn
-        if(cube.input.IsButtonDown(PlayerInput.Button.B) || cube.input.RightTrigger > 0.05f)
-        {
-            isB = cube.input.IsButtonDown(PlayerInput.Button.B);
-            if (!isShooting)
-            {
-                cube.GetCubeController().ImmobilizeForFire();
-            }
-            isShooting = true;
-        }
-        else if((isB && cube.input.IsButtonUp(PlayerInput.Button.B)) || (!isB && cube.input.RightTrigger < 0.05f))
-        {
-            if(isShooting)
-                cube.GetCubeController().LetFree();
-            rotation = weapon.transform.rotation;
-            isShooting = false;
-        }
-
-        weapon.TrackFire(cube.input.RightTrigger, cube.input.IsButtonDown(PlayerInput.Button.B), cube.input.IsButton(PlayerInput.Button.B), cube.input.IsButtonUp(PlayerInput.Button.B));
-
         DisplayWeaponDirection(); // affD
-    }
-
-    void LateUpdate()
-    {
-        if (!isShooting)
-        {
-            // don't rotate the weapon
-            weapon.transform.rotation = rotation;
-        }
-        else
-        {
-            Aim();
-        }
-    }
-
-    private void Aim()
-    {
-        float x = - cube.input.Horizontal;
-        float y = - cube.input.Vertical;
-        if (x != 0.0 || y != 0.0)
-        {
-            float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
-            // cube.GetCubeController().RotateForAim(angle);
-            weapon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
     }
 
     private void DisplayWeaponDirection()

@@ -5,6 +5,8 @@ public class CubeMotor : MonoBehaviour
 {
     [SerializeField]
     private Animator animator = default;
+    [SerializeField]
+    private float startDashTime;
 
     // ---- INTERN ----
     private Vector3 velocityForMovement = Vector3.zero;
@@ -18,6 +20,12 @@ public class CubeMotor : MonoBehaviour
     private Quaternion baseAimRotation;
 
     private float previousYVelocity;
+
+    // dash
+    private float dashTime;
+    private Vector3 dashDirection;
+    private float dashSpeed;
+    private Vector3 previousVelocity;
 
     void Start()
     {
@@ -37,6 +45,16 @@ public class CubeMotor : MonoBehaviour
                 animator.SetTrigger("Falling");
             }
             previousYVelocity = cubeRigidbody.velocity.y;
+        }
+
+        if(dashTime > 0)
+        {
+            dashTime -= Time.deltaTime;
+            cubeRigidbody.velocity = dashDirection * dashSpeed;
+            if (dashTime <= 0)
+            {
+                cubeRigidbody.velocity = previousVelocity;
+            }
         }
 
         DisplayRigidBodyVelocity();
@@ -89,6 +107,15 @@ public class CubeMotor : MonoBehaviour
         cubeRigidbody.AddForce(force, ForceMode.Impulse);
     }
 
+    public void Dash (Vector3 direction, float speed)
+    {
+        previousVelocity = cubeRigidbody.velocity;
+        dashDirection = direction;
+        dashSpeed = speed;
+
+        dashTime = startDashTime;
+    }
+
     public void CanMove(bool canMove)
     {
         if (this.canMove != canMove)
@@ -96,7 +123,7 @@ public class CubeMotor : MonoBehaviour
             if (!canMove)
             {
                 // store the current velocity
-           //     preFreezeVelocity = cubeRigidbody.velocity;
+                preFreezeVelocity = cubeRigidbody.velocity;
            //     preFreezeRVelocity = cubeRigidbody.angularVelocity;
                 // turn off the gravity
                 cubeRigidbody.useGravity = false;

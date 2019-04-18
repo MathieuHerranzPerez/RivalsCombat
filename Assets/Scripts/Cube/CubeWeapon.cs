@@ -7,9 +7,6 @@ public abstract class CubeWeapon : MonoBehaviour
 {
     public string weaponName;
 
-    public GameObject bulletGO;
-    [SerializeField]
-    protected Image cursorImage;
     [SerializeField]
     protected Animator weaponAnimator;
     [SerializeField]
