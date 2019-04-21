@@ -4,7 +4,7 @@ public class SwordPhysics : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField]
-    private Sword sword;
+    private Sword sword = default;
 
     void OnTriggerEnter(Collider other)
     {

@@ -33,4 +33,9 @@ public class Player : MonoBehaviour
     {
         return this.input;
     }
+
+    public void SetColor(Color color)
+    {
+        this.color = color;
+    }
 }

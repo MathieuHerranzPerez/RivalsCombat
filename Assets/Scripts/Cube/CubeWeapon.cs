@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 [Serializable]
 public abstract class CubeWeapon : MonoBehaviour
 {
     public string weaponName;
+    public Sprite weaponImage = default;
 
+    [Header("Setup")]
     [SerializeField]
     protected Animator weaponAnimator;
     [SerializeField]

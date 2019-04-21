@@ -6,7 +6,7 @@ public class CubeMotor : MonoBehaviour
     [SerializeField]
     private Animator animator = default;
     [SerializeField]
-    private float startDashTime;
+    private float startDashTime = 0.2f;
 
     // ---- INTERN ----
     private Vector3 velocityForMovement = Vector3.zero;

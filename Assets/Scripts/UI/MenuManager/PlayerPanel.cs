@@ -16,6 +16,8 @@ public class PlayerPanel : MonoBehaviour
     private GameObject imgPressXGO = default;
     [SerializeField]
     private GameObject imgReadyGO = default;
+    [SerializeField]
+    private PersonalisationPanel personalisationPanel = default;
 
     void Awake()
     {
@@ -48,7 +50,15 @@ public class PlayerPanel : MonoBehaviour
         imgPressAGO.SetActive(false);
         imgPressXGO.SetActive(true);
 
+        personalisationPanel.gameObject.SetActive(true);
+        personalisationPanel.AssignController(controller);
+
         return player;
+    }
+
+    public void ChangePlayerColor(Color color)
+    {
+        player.SetColor(color);
     }
 
 

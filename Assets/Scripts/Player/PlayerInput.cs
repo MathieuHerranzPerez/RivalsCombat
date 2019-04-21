@@ -73,26 +73,27 @@ public class PlayerInput : MonoBehaviour
         controllerNumber = number;
 
         // button
-        aBtn = "J" + controllerNumber + "A";
-        bBtn = "J" + controllerNumber + "B";
-        xBtn = "J" + controllerNumber + "X";
-        yBtn = "J" + controllerNumber + "Y";
-        leftBumper = "J" + controllerNumber + "LB";
-        rightBumper = "J" + controllerNumber + "RB";
-        backBtn = "J" + controllerNumber + "Back";
-        startBtn = "J" + controllerNumber + "Start";
-        leftStickBtn = "J" + controllerNumber + "LeftStick";
-        rightStickBtn = "J" + controllerNumber + "RightStick";
+        aBtn = InputNameManager.GetAName(controllerNumber);
+        
+        bBtn = InputNameManager.GetBName(controllerNumber);
+        xBtn = InputNameManager.GetXName(controllerNumber);
+        yBtn = InputNameManager.GetYName(controllerNumber);
+        leftBumper = InputNameManager.GetLeftBumperName(controllerNumber);
+        rightBumper = InputNameManager.GetRightBumperName(controllerNumber);
+        backBtn = InputNameManager.GetBackBtnName(controllerNumber);
+        startBtn = InputNameManager.GetStartBtnName(controllerNumber);
+        leftStickBtn = InputNameManager.GetLeftStickBtnName(controllerNumber);
+        rightStickBtn = InputNameManager.GetRightStickBtnName(controllerNumber);
 
         // axis
-        horizontalAxis = "J" + controllerNumber + "Horizontal";
-        verticalAxis = "J" + controllerNumber + "Vertical";
-        rightHorizontalAxis = "J" + controllerNumber + "RightHorizontal";
-        rightVerticalAxis = "J" + controllerNumber + "RightVertical";
-        dPadHorizontal = "J" + controllerNumber + "DPadHorizontal";
-        dPadVertical = "J" + controllerNumber + "DPadVertical";
-        leftTriggerAxis = "J" + controllerNumber + "LeftTrigger";
-        rightTriggerAxis = "J" + controllerNumber + "RightTrigger";
+        horizontalAxis = InputNameManager.GetHorizontalName(controllerNumber);
+        verticalAxis = InputNameManager.GetVerticalName(controllerNumber);
+        rightHorizontalAxis = InputNameManager.GetRightHorizontalAxisName(controllerNumber);
+        rightVerticalAxis = InputNameManager.GetRightVerticleAxisName(controllerNumber);
+        dPadHorizontal = InputNameManager.GetDPadHorizontalName(controllerNumber);
+        dPadVertical = InputNameManager.GetDPadVerticalName(controllerNumber);
+        leftTriggerAxis = InputNameManager.GetLeftTriggerName(controllerNumber);
+        rightTriggerAxis = InputNameManager.GetRightTriggerName(controllerNumber);
     }
 
     public bool IsButtonDown (Button button)

@@ -4865,6 +4865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: 
+  weaponImage: {fileID: 21300000, guid: 61f5fc03ca99e8f47b78f9251cbab777, type: 3}
   weaponAnimator: {fileID: 7442010287538921188}
   firePoint: {fileID: 1741580060186390964}
   timeBetweenShoots: 0.5
