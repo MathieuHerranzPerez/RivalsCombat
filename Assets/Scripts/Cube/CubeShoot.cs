@@ -11,11 +11,9 @@ public class CubeShoot : MonoBehaviour
     private Cube cube;
     private CubeWeapon weapon;
 
-    void Start()
+    void Awake()
     {
         cube = GetComponent<Cube>();
-        weapon = weaponHolder.GetWeapon();
-        weapon.SetCube(cube);
     }
 
     void Update()
@@ -23,9 +21,18 @@ public class CubeShoot : MonoBehaviour
         DisplayWeaponDirection(); // affD
     }
 
+    public void NotifyNewWeapon()
+    {
+        weapon = weaponHolder.GetWeapon();
+        weapon.SetCube(cube);
+    }
+
     private void DisplayWeaponDirection()
     {
-        Vector3 dir = weapon.firePoint.position - transform.position;
-        Debug.DrawRay(transform.position, dir * 2, Color.green);
+        if (weapon)
+        {
+            Vector3 dir = weapon.firePoint.position - transform.position;
+            Debug.DrawRay(transform.position, dir * 2, Color.green);
+        }
     }
 }

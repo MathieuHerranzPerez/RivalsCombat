@@ -66,6 +66,9 @@ public class CubeSpawner : MonoBehaviour
         // give it the player
         cube.SetPlayer(p);
 
+        // give it a weapon
+        cube.SetWeapon(p.cubeWeaponPrefab);
+
         // give it to the camera
         MultipleTargetCamera.Instance.AddTarget(cube.transform);
 

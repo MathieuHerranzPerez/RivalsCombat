@@ -7,7 +7,7 @@ public class WeaponBtn : MonoBehaviour
 {
     // ---- INTERN ----
     private WeaponSelectedBtn weaponSelectedBtn = default;
-    private CubeWeapon cubeWeapon;
+    private GameObject cubeWeaponPrefab;
     private Button btn;
     private Image weaponImg;
 
@@ -18,10 +18,10 @@ public class WeaponBtn : MonoBehaviour
         btn.onClick.AddListener(NotifyClick);
     }
 
-    public void SetCubeWeapon(CubeWeapon weapon)
+    public void SetCubeWeaponPrefab(GameObject weapon)
     {
-        this.cubeWeapon = weapon;
-        weaponImg.sprite = cubeWeapon.weaponImage;
+        this.cubeWeaponPrefab = weapon;
+        weaponImg.sprite = cubeWeaponPrefab.GetComponent<CubeWeapon>().weaponImage;
     }
 
     public void SetSelectedBtn(WeaponSelectedBtn weaponSelectedBtn)
@@ -31,6 +31,6 @@ public class WeaponBtn : MonoBehaviour
 
     private void NotifyClick()
     {
-        weaponSelectedBtn.ChangeWeapon(cubeWeapon);
+        weaponSelectedBtn.ChangeWeapon(cubeWeaponPrefab);
     }
 }

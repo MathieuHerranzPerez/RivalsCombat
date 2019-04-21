@@ -2396,6 +2396,7 @@ MonoBehaviour:
   btnColorContainerLayoutGO: {fileID: 536315135}
   eventSystem: {fileID: 6348099776008012458}
   firstBtnSelected: {fileID: 1190015540}
+  personalisationPanel: {fileID: 1115399236}
 --- !u!114 &1730526788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2704,6 +2705,7 @@ MonoBehaviour:
   eventSystem: {fileID: 6348099776008012458}
   btnWeaponPrefab: {fileID: 956555734356575484, guid: ec769c1118c74ba4099a224198940684,
     type: 3}
+  personalisationPanel: {fileID: 1115399236}
 --- !u!114 &1599761654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3021,7 +3023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1190015540}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 929764042}
@@ -4032,6 +4034,7 @@ MonoBehaviour:
   btnColorContainerLayoutGO: {fileID: 1343156401529335974}
   eventSystem: {fileID: 5039902753302917204}
   firstBtnSelected: {fileID: 7335284527800653210}
+  personalisationPanel: {fileID: 3717594828536043425}
 --- !u!114 &7797509252807004210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7957,6 +7960,7 @@ MonoBehaviour:
   eventSystem: {fileID: 7739852829063541304}
   btnWeaponPrefab: {fileID: 956555734356575484, guid: ec769c1118c74ba4099a224198940684,
     type: 3}
+  personalisationPanel: {fileID: 7431267609430923791}
 --- !u!114 &9030283566108150196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9796,6 +9800,7 @@ MonoBehaviour:
   btnColorContainerLayoutGO: {fileID: 4454256718264540184}
   eventSystem: {fileID: 7739852829063541304}
   firstBtnSelected: {fileID: 7637723749468938230}
+  personalisationPanel: {fileID: 7431267609430923791}
 --- !u!114 &8438619616776994353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11255,7 +11260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 7637723749468938230}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 7139332424862478921}
@@ -11713,7 +11718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 7268811070457453276}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 7400090845172287373}
@@ -12434,6 +12439,7 @@ MonoBehaviour:
   eventSystem: {fileID: 5039902753302917204}
   btnWeaponPrefab: {fileID: 956555734356575484, guid: ec769c1118c74ba4099a224198940684,
     type: 3}
+  personalisationPanel: {fileID: 3717594828536043425}
 --- !u!114 &5841240610861723481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14108,6 +14114,7 @@ MonoBehaviour:
   btnColorContainerLayoutGO: {fileID: 7751895282339652827}
   eventSystem: {fileID: 8521854189283927008}
   firstBtnSelected: {fileID: 7268811070457453276}
+  personalisationPanel: {fileID: 1770326212984098803}
 --- !u!114 &4537578447797307244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15143,6 +15150,7 @@ MonoBehaviour:
   eventSystem: {fileID: 8521854189283927008}
   btnWeaponPrefab: {fileID: 956555734356575484, guid: ec769c1118c74ba4099a224198940684,
     type: 3}
+  personalisationPanel: {fileID: 1770326212984098803}
 --- !u!114 &5241232949788949348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16455,7 +16463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 7335284527800653210}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 4324059709041827201}

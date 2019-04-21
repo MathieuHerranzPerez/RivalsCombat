@@ -61,6 +61,11 @@ public class PlayerPanel : MonoBehaviour
         player.SetColor(color);
     }
 
+    public void ChangePlayerWeapon(GameObject weapon)
+    {
+        player.SetCubeWeaponPrefab(weapon);
+    }
+
 
     private void ToggleReady()
     {

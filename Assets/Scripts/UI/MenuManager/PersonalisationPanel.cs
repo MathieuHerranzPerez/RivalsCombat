@@ -25,6 +25,11 @@ public class PersonalisationPanel : MonoBehaviour
         playerPanel.ChangePlayerColor(color);
     }
 
+    public void NotifyWeaponChanged(GameObject weaponPrefab)
+    {
+        playerPanel.ChangePlayerWeapon(weaponPrefab);
+    }
+
     public void AssignController(int controller)
     {
         //eventSystem.firstSelectedGameObject = firstBtnSelected.gameObject;

@@ -16,11 +16,15 @@ public class WeaponSelectedBtn : MonoBehaviour
     private EventSystem eventSystem = default;
     [SerializeField]
     private GameObject btnWeaponPrefab = default;
+    [SerializeField]
+    private PersonalisationPanel personalisationPanel = default;
 
     // ---- INTERN ----
-    private List<CubeWeapon> listWeapon = new List<CubeWeapon>();
+    //private List<CubeWeapon> listWeapon = new List<CubeWeapon>();
+    private List<GameObject> listWeapon = new List<GameObject>();
     private Object[] weapons;
-    private CubeWeapon weaponSelected;
+    //private CubeWeapon weaponSelected;
+    private GameObject weaponSelectedPrefab;
 
     private MyButton firstBtnSelected;
 
@@ -36,12 +40,20 @@ public class WeaponSelectedBtn : MonoBehaviour
         eventSystem.SetSelectedGameObject(firstBtnSelected.gameObject);
     }
 
-    public void ChangeWeapon(CubeWeapon weapon)
+    //public void ChangeWeapon(CubeWeapon weapon)
+    //{
+    //    weaponSelected = weapon;
+    //    selectedWeaponImg.sprite = weapon.weaponImage;
+    //    HideWeaponBtn();
+    //}
+
+    public void ChangeWeapon(GameObject weaponPrefab)
     {
-        weaponSelected = weapon;
-        selectedWeaponImg.sprite = weapon.weaponImage;
+        weaponSelectedPrefab = weaponPrefab;
+        selectedWeaponImg.sprite = weaponSelectedPrefab.GetComponent<CubeWeapon>().weaponImage;
         HideWeaponBtn();
-    }
+        personalisationPanel.NotifyWeaponChanged(weaponPrefab);
+}
 
     private void HideWeaponBtn()
     {
@@ -56,11 +68,14 @@ public class WeaponSelectedBtn : MonoBehaviour
 
         foreach (Object o in weapons)
         {
-            listWeapon.Add(((GameObject)o).GetComponent<CubeWeapon>());
+            if(((GameObject)o).GetComponent<CubeWeapon>())
+            {
+                listWeapon.Add((GameObject) o);
+            }
         }
 
         MyButton previousBtn = null;
-        foreach (CubeWeapon cw in listWeapon)
+        foreach (GameObject cubeWeaponPrefab in listWeapon)
         {
             GameObject btnGO = (GameObject)Instantiate(btnWeaponPrefab, btnWeaponContainerLayoutGO.transform) as GameObject;
             MyButton currentBtn = btnGO.GetComponent<MyButton>();
@@ -87,12 +102,12 @@ public class WeaponSelectedBtn : MonoBehaviour
             currentBtn.navigation = navigation;
 
             // set the image
-            currentBtn.image.sprite = cw.weaponImage;
+            currentBtn.image.sprite = cubeWeaponPrefab.GetComponent<CubeWeapon>().weaponImage;
             // todo give the weapon
             WeaponBtn currentWeaponBtn = currentBtn.GetComponent<WeaponBtn>();
             currentWeaponBtn.Init();
             currentWeaponBtn.SetSelectedBtn(this);
-            currentWeaponBtn.SetCubeWeapon(cw);
+            currentWeaponBtn.SetCubeWeaponPrefab(cubeWeaponPrefab);
 
             previousBtn = currentBtn;
         }

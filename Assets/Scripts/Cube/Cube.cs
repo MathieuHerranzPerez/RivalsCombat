@@ -14,8 +14,11 @@ public class Cube : MonoBehaviour
     [SerializeField]
     private int maxLifePoint = 100;
 
+    [Header("Setup")]
     [SerializeField]
     private MeshRenderer cubeGFX = default;
+    [SerializeField]
+    private WeaponHolder weaponHolder = default;
 
     // ---- INTERN ----
     private int lifePoint;
@@ -82,5 +85,10 @@ public class Cube : MonoBehaviour
     public int GetMaxLifePoint()
     {
         return maxLifePoint;
+    }
+
+    public void SetWeapon(GameObject weaponPrefab)
+    {
+        weaponHolder.SetWeapon(weaponPrefab);
     }
 }

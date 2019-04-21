@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int num = 0;
     public bool isPlayed { get; private set; }
+    public GameObject cubeWeaponPrefab { get; private set; }
 
     public Color color { get; private set; }
 
@@ -37,5 +38,10 @@ public class Player : MonoBehaviour
     public void SetColor(Color color)
     {
         this.color = color;
+    }
+
+    public void SetCubeWeaponPrefab(GameObject weaponPrefab)
+    {
+        this.cubeWeaponPrefab = weaponPrefab;
     }
 }

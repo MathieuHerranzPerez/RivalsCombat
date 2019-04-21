@@ -13,6 +13,8 @@ public class ColorSelectedBtn : MonoBehaviour
     private EventSystem eventSystem = default;
     [SerializeField]
     private Button firstBtnSelected = default;
+    [SerializeField]
+    private PersonalisationPanel personalisationPanel = default;
 
     // ---- INTERN ----
     private Color colorSeleted;
@@ -28,6 +30,7 @@ public class ColorSelectedBtn : MonoBehaviour
         colorSeleted = color;
         selectedColorImg.color = color;
         HideColoredBtn();
+        personalisationPanel.NotifyColorChanged(color);
     }
 
     private void HideColoredBtn()
