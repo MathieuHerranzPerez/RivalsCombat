@@ -14498,10 +14498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b48a4d51c2b19e4d958e128c5447303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionParticles: {fileID: 2974385638226731172, guid: 82633ff3a665a7d49ad92ff3e4aaf875,
-    type: 3}
   explosionAudio: {fileID: 0}
-  maxDamage: 120
+  maxDamage: 150
   maxLifeTime: 5
   explosionForce: 400
   explosionRadius: 3

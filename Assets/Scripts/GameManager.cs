@@ -2,7 +2,6 @@
 
 public class GameManager : MonoBehaviour
 {
-
     [SerializeField]
     private CubeSpawner cubeSpawner = default;
 

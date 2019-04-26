@@ -19,7 +19,7 @@ public class Missile : Bullet
     private float camShakeTime = 0.2f;
 
     // ---- INTERN ----
-    private Rigidbody rBody;
+    protected bool IsCollided = false;
 
     void Start()
     {
@@ -34,12 +34,16 @@ public class Missile : Bullet
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    void OnCollisionEnter(Collision collision)
+    virtual protected void OnCollisionEnter(Collision collision)
     {
-        Explode();
+        if (!IsCollided)
+        {
+            IsCollided = true;
+            Explode();
+        }
     }
 
-    private void Explode() 
+    protected virtual void Explode() 
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider collider in colliders)
@@ -60,9 +64,15 @@ public class Missile : Bullet
         foreach (Collider collider in collidersToAddForce)
         {
             Rigidbody targetRigidBody = collider.GetComponent<Rigidbody>();
-            if (targetRigidBody)
-            { 
+            if (targetRigidBody && targetRigidBody != this.GetComponent<Rigidbody>())
+            {
+                CubeController cubeController = targetRigidBody.GetComponent<CubeController>();
+                if (cubeController)
+                {
+                    cubeController.CancelDash();
+                }
                 targetRigidBody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                //AddExplosionForce(targetRigidBody, explosionForce, transform.position, explosionRadius);
             }
         }
             
@@ -89,6 +99,15 @@ public class Missile : Bullet
 
         return damage;
     }
+
+    //private void AddExplosionForce(Rigidbody rb, float explosionForce, Vector3 pos, float explosionRadius)
+    //{
+    //    Vector3 direction = (rb.position - pos).normalized;
+    //    float distance = Vector3.Distance(rb.position, pos);
+    //    float explosion = distance * explosionRadius / explosionForce;
+    //    rb.velocity += explosion * direction;
+    //    Debug.Log("Direction : " + direction);
+    //}
 
     void OnDrawGizmos()
     {

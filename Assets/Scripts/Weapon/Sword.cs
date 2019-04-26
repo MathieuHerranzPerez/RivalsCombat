@@ -8,19 +8,27 @@ public class Sword : CubeWeapon
     private float timeBetweenShoots = 0.6f;
     [Range(1f, 10f)]
     private float timeBewteenDashes = 2f;
+    [Range(1f, 10f)]
+    private float timeBewteenReflects = 5f;
+    [Range(0.1f, 1f)]
+    private float reflectDuration = 0.5f;
     [SerializeField]
     private float damageOnHit = 80f;
     [SerializeField]
     private float dashForce = 10f;
+    [Header("Setup")]
+    [SerializeField]
+    private ReflectTrigger reflectTrigger = default;
 
     // ---- INTERN ----
     private bool canShoot = true;
+    private bool canReflect = true;
     private bool canDash = true;
     private int numAnim = 0;
 
     void Update()
     {
-        TrackFire(cube.input.RightTrigger, cube.input.IsButtonDown(PlayerInput.Button.B), cube.input.IsButton(PlayerInput.Button.B), cube.input.IsButtonUp(PlayerInput.Button.B));
+        TrackFire(cube.input.LeftTrigger, cube.input.RightTrigger, cube.input.IsButtonDown(PlayerInput.Button.B), cube.input.IsButton(PlayerInput.Button.B), cube.input.IsButtonUp(PlayerInput.Button.B));
     }
 
     void LateUpdate()
@@ -29,13 +37,13 @@ public class Sword : CubeWeapon
         Aim();
     }
 
-    public override void TrackFire(float triggerValue, bool isFireBtnDown, bool isFireBtn, bool isFireBtnUp)
+    public override void TrackFire(float leftTriggerValue, float rightTriggerValue, bool isFireBtnDown, bool isFireBtn, bool isFireBtnUp)
     {
-        if (triggerValue > 0.05f && canShoot)
+        if (rightTriggerValue > 0.05f && canShoot)
         {
             Fire();
             canShoot = false;
-            StartCoroutine(DelayAfterAction(timeBetweenShoots, true));
+            StartCoroutine(DelayAfterAction(timeBetweenShoots, ShootingAction.SHOOT));
         }
         else if((isFireBtnDown || isFireBtn) && canDash)
         {
@@ -45,7 +53,14 @@ public class Sword : CubeWeapon
 
             cube.GetCubeController().Dash(direction, dashForce);
             canDash = false;
-            StartCoroutine(DelayAfterAction(timeBewteenDashes, false));
+            StartCoroutine(DelayAfterAction(timeBewteenDashes, ShootingAction.DASH));
+        }
+        else if(leftTriggerValue > 0.05f && canReflect)
+        {
+            Reflect();
+            canReflect = false;
+            StartCoroutine(StopReflect(reflectDuration));
+            StartCoroutine(DelayAfterAction(timeBewteenReflects, ShootingAction.REFLECT));
         }
     }
 
@@ -60,7 +75,7 @@ public class Sword : CubeWeapon
         numAnim = (numAnim == 2) ? 0 : numAnim + 1;
     }
 
-    private IEnumerator DelayAfterAction(float duration, bool isShooting)
+    private IEnumerator DelayAfterAction(float duration, ShootingAction action)
     {
         float time = 0f;
         while(time < duration)
@@ -68,10 +83,41 @@ public class Sword : CubeWeapon
             time += Time.deltaTime;
             yield return null;
         }
-        if (isShooting)
+        if (action == ShootingAction.SHOOT)
             canShoot = true;
-        else
+        else if (action == ShootingAction.DASH)
             canDash = true;
+        else if (action == ShootingAction.REFLECT)
+            canReflect = true;
+    }
+
+    private IEnumerator StopReflect(float duration)
+    {
+        float time = 0f;
+        while(time < duration)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        StopReflect();
+    }
+
+    private void Reflect()
+    {
+        reflectTrigger.gameObject.SetActive(true);
+        weaponAnimator.SetBool("IsReflecting", true);
+    }
+
+    public void NotifyReflection(Bullet bullet)
+    {
+        Vector3 direction = new Vector3(cube.input.Horizontal, cube.input.Vertical, 0f).normalized;
+        bullet.ChangeVelocity(direction);
+    }
+
+    private void StopReflect()
+    {
+        reflectTrigger.gameObject.SetActive(false);
+        weaponAnimator.SetBool("IsReflecting", false);
     }
 
     public void Hit(Collider other)
@@ -86,7 +132,7 @@ public class Sword : CubeWeapon
             Bullet bullet = other.GetComponent<Bullet>();
             if(bullet)
             {
-
+                // do nothing ?
             }
         }
     }
@@ -104,5 +150,12 @@ public class Sword : CubeWeapon
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
         }
+    }
+
+    private enum ShootingAction
+    {
+        SHOOT,
+        DASH,
+        REFLECT,
     }
 }

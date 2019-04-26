@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(CubeMotor))]
 [RequireComponent(typeof(Cube))]
@@ -11,16 +12,21 @@ public class CubeController : MonoBehaviour
     [SerializeField]
     private float jumpForce = 4f;
     [SerializeField]
-    private float timeToJump = 0.15f;
+    private float timeBetweenJumps = 0.1f;
 
     [SerializeField]
     private Animator animator = default;
+
+    [SerializeField]
+    private Material transparentMaterial = default;
 
     // ---- INTERN ----
 
     private CubeMotor motor;
     private bool canJump = true;
     private float time = 0f;
+    private Material previousMaterial;
+    private Renderer cubeRenderer;
 
 
     void Awake()
@@ -31,6 +37,8 @@ public class CubeController : MonoBehaviour
     void Start()
     {
         motor = GetComponent<CubeMotor>();
+        cubeRenderer = cube.GetCubeRenderer();
+        previousMaterial = cubeRenderer.material;
     }
 
     void Update()
@@ -52,19 +60,27 @@ public class CubeController : MonoBehaviour
         {
             _jumpForce = Vector3.up * jumpForce;
             canJump = false;
-
+            StartCoroutine(DelayJump());
             animator.SetTrigger("Jumping");
         }
 
-        if(!canJump)
-        {
-            time += Time.deltaTime;
-            if (time >= timeToJump)
-                canJump = true;
-        }
+        //if(!canJump)
+        //{
+        //    time += Time.deltaTime;
+        //    if (time >= timeToJump)
+        //    {
+        //        canJump = true;
+        //        time = 0f;
+        //    }
+        //}
 
         // apply the jump force
         motor.Jump(_jumpForce);
+    }
+
+    public void CancelDash()
+    {
+        motor.CancelDash();
     }
 
     public void ApplyForce(Vector3 force)
@@ -88,5 +104,31 @@ public class CubeController : MonoBehaviour
     {
         motor.Dash(direction, speed);
         animator.SetTrigger("Dashing");
+    }
+
+    public void TP(Vector3 direction, float distance)
+    {
+        motor.TP(direction, distance);
+    }
+
+    public void SetInvisible()
+    {
+        cubeRenderer.material = transparentMaterial;
+    }
+
+    public void SetVisible()
+    {
+        cubeRenderer.material = previousMaterial;
+    }
+
+    private IEnumerator DelayJump()
+    {
+        float time = 0f;
+        while(time < timeBetweenJumps)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        canJump = true;
     }
 }

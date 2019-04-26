@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CubeController))]
+//[RequireComponent(typeof(CubeController))]
 [RequireComponent(typeof(Destructable))]
 public class Cube : MonoBehaviour
 {
@@ -90,5 +90,10 @@ public class Cube : MonoBehaviour
     public void SetWeapon(GameObject weaponPrefab)
     {
         weaponHolder.SetWeapon(weaponPrefab);
+    }
+
+    public Renderer GetCubeRenderer()
+    {
+        return cubeGFX;
     }
 }

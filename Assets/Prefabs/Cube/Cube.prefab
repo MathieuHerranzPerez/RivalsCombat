@@ -198,7 +198,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5221978326068958127}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b8cb2f7d76c55574481cb2b334fba3f6, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -220,6 +220,7 @@ MonoBehaviour:
   jumpForce: 5
   timeToJump: 0.15
   animator: {fileID: 6957733800109048506}
+  transparentMaterial: {fileID: 2100000, guid: b306abddbbd16ae49ab1e6a49278b210, type: 2}
 --- !u!114 &5221978326068958121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5221978326778912976}
   - component: {fileID: 6957733800109048506}
+  - component: {fileID: 9028423755213076272}
   m_Layer: 9
   m_Name: CubeGFX
   m_TagString: Untagged
@@ -317,6 +319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5221978325371707802}
+  - {fileID: 7643755064412344747}
   m_Father: {fileID: 5221978326068958122}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -339,3 +342,50 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9028423755213076272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221978326778912977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8822e83b0c99bab42baa5b01cca6473c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpingEffect: {fileID: 4190921691626820794, guid: b8e275670594a0445bd8dbfff11dd63a,
+    type: 3}
+  landingEffect: {fileID: 134507732492839809, guid: 782926f1b3cc2af45914d5065551f526,
+    type: 3}
+  jumpingEffectPoint: {fileID: 7643755064412344747}
+--- !u!1 &6580218813079772379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7643755064412344747}
+  m_Layer: 0
+  m_Name: JumpingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7643755064412344747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580218813079772379}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5221978326778912976}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

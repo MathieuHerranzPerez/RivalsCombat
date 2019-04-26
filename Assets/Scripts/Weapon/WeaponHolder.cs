@@ -4,7 +4,7 @@ public class WeaponHolder : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField]
-    private CubeShoot cubeShoot;
+    private CubeShoot cubeShoot = default;
 
     // ---- INTERN ----
     private CubeWeapon cubeWeapon;

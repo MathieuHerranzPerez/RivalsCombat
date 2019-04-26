@@ -71,6 +71,7 @@ public class MenuManager : MonoBehaviour
         {
             // TODO
             // display the team selection screen
+            LaunchGame();
         }
         else
         {

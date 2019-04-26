@@ -116,6 +116,20 @@ public class CubeMotor : MonoBehaviour
         dashTime = startDashTime;
     }
 
+    public void CancelDash()
+    {
+        dashTime = 0f;
+    }
+
+    public void TP(Vector3 direction, float distance)
+    {
+        // calcul the new positionand check if we can tp there
+        Vector3 vector = direction * distance;
+        Vector3 newPos = transform.position + vector;
+
+        transform.position = newPos;
+    }
+
     public void CanMove(bool canMove)
     {
         if (this.canMove != canMove)
@@ -163,14 +177,16 @@ public class CubeMotor : MonoBehaviour
             Vector3 currentForce = new Vector3(0f, -cubeRigidbody.velocity.y, 0f);
             currentForce += jumpForce;
             cubeRigidbody.AddForce(currentForce, ForceMode.Impulse);
+
+            jumpForce = Vector3.zero;
         }
     }
 
     private void SlowRigidBodyMovement()
     {
-        float coef = 0.02f;
+        float coef = 0.04f;
         // tanslation
-        float velocityX = CalculVelocityReduced(cubeRigidbody.velocity.x, velocityForMovement.x / 60);
+        float velocityX = CalculVelocityReduced(cubeRigidbody.velocity.x, velocityForMovement.x / 30);
         Vector3 newVelocity = new Vector3(velocityX, cubeRigidbody.velocity.y, cubeRigidbody.velocity.z);
         cubeRigidbody.velocity = newVelocity;
 
@@ -190,9 +206,9 @@ public class CubeMotor : MonoBehaviour
     private float CalculVelocityReduced(float initialVelocity, float coef)
     {
         float newVelocity = 0f;
-        if (initialVelocity > 0 && coef > 0)
+        if (initialVelocity > 0 && coef < 0)
         {
-            newVelocity = (initialVelocity - coef) >= 0 ? initialVelocity - coef : 0f;
+            newVelocity = (initialVelocity - coef) >= 0 ? initialVelocity + coef : 0f;
         }
         else if (initialVelocity < 0 && coef > 0)
         {

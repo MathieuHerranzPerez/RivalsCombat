@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MissileLauncher : ProjectilWeapon
 {
@@ -10,11 +11,25 @@ public class MissileLauncher : ProjectilWeapon
     private float maxChargeTime = 1.5f;
     [SerializeField]
     private float recoilForceDiv = 6f;
+    [SerializeField]
+    private float cooldown = 0.2f;
+
+    [Header("Invisibility")]
+    [SerializeField]
+    private float invisibilityTime = 1.5f;
+    [SerializeField]
+    private float timeBetweenInvisibilities = 6f;
+    [SerializeField]
+    private ParticleSystem startInvisibilityEffect = default;
+    [SerializeField]
+    private ParticleSystem endInvisibilityEffect = default;
 
     // ---- INTERN ----
     private float currentLaunchForce;
     private float chargeSpeed;
     private bool fired;
+    private bool canFire = true;
+    private bool canHide = true;
 
     private float lastRightTriggerValue = 0f;
 
@@ -54,22 +69,26 @@ public class MissileLauncher : ProjectilWeapon
 
         currentLaunchForce = minLaunchForce;
 
+        canFire = false;
+        StartCoroutine(Delay(cooldown, ShootingAction.SHOOT));
+
         //FiringAudio.Play();
         //weaponAnimator.SetTrigger("shoot");
     }
 
-    public override void TrackFire(float triggerValue, bool isFireBtnDown, bool isFireBtn, bool isFireBtnUp)
+    public override void TrackFire(float leftTriggerValue, float rightTriggerValue, bool isFireBtnDown, bool isFireBtn, bool isFireBtnUp)
     {
         if (currentLaunchForce >= maxLaunchForce && fired)
         {
+            cursorImageToFill.fillAmount = 1;
             currentLaunchForce = maxLaunchForce;
         }
-        else if((triggerValue > 0.05f && lastRightTriggerValue < 0.05f) || isFireBtnDown)
+        else if(rightTriggerValue > 0.05f && lastRightTriggerValue < 0.05f)
         {
             fired = false;
             currentLaunchForce = minLaunchForce;
         }
-        else if(((triggerValue > 0.05f && lastRightTriggerValue > 0.05f) || isFireBtn) && !fired)
+        else if((rightTriggerValue > 0.05f && lastRightTriggerValue > 0.05f) && !fired)
         {
             currentLaunchForce += chargeSpeed * Time.deltaTime;
 
@@ -78,13 +97,58 @@ public class MissileLauncher : ProjectilWeapon
             else
                 currentLaunchForce += chargeSpeed * Time.deltaTime;
             // fill the UI cursor
-            // cursorImage.fillAmount = currentLaunchForce / maxLaunchForce;
+            cursorImageToFill.fillAmount = currentLaunchForce / maxLaunchForce;
         }
-        else if (((triggerValue < 0.05f && lastRightTriggerValue > 0.05f) || isFireBtnUp) && !fired)
+        else if ((rightTriggerValue < 0.05f && lastRightTriggerValue > 0.05f) && !fired)
         {
-            Fire();
+            if(canFire)
+                Fire();
+            cursorImageToFill.fillAmount = 0f;
+        }
+        else if(isFireBtnDown && canHide)
+        {
+            ParticleSystem p = (ParticleSystem)Instantiate(startInvisibilityEffect, transform.position, transform.rotation);
+            Destroy(p, 2f);
+            cube.GetCubeController().SetInvisible();
+            canHide = false;
+            StartCoroutine(DelayInvisibility());
+            StartCoroutine(Delay(timeBetweenInvisibilities, ShootingAction.INVISIBLE));
         }
 
         lastRightTriggerValue = cube.input.RightTrigger;
+    }
+
+    private IEnumerator Delay(float duration, ShootingAction action)
+    {
+        float time = 0f;
+        while(time < duration)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        if (action == ShootingAction.SHOOT)
+            canFire = true;
+        else if (action == ShootingAction.INVISIBLE)
+            canHide = true;
+    }
+
+    private IEnumerator DelayInvisibility()
+    {
+        float time = 0f;
+        while (time < invisibilityTime)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        ParticleSystem p = (ParticleSystem)Instantiate(endInvisibilityEffect, transform.position, transform.rotation);
+        Destroy(p, 2f);
+        cube.GetCubeController().SetVisible();
+    }
+
+    private enum ShootingAction
+    {
+        SHOOT,
+        INVISIBLE,
     }
 }
