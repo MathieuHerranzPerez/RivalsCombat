@@ -652,7 +652,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick 3 button 4
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: joystick 3 button 9
     gravity: 1000
     dead: 0.2
     sensitivity: 1000
@@ -716,7 +716,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick 3 button 5
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: joystick 3 button 10
     gravity: 1000
     dead: 0.2
     sensitivity: 1000
@@ -805,3 +805,19 @@ InputManager:
     type: 0
     axis: 0
     joyNum: 4
+  - serializedVersion: 3
+    m_Name: J1Start
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick 1 button 7
+    altNegativeButton: 
+    altPositiveButton: joystick 1 button 6
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 1

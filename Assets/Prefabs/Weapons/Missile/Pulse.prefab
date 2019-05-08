@@ -4973,6 +4973,7 @@ MonoBehaviour:
   camShakeMagnitude: 0
   camShakeRotation: 0
   camShakeTime: 0
+  shockWaveMaterial: {fileID: 2100000, guid: f47f99236839cc34eb3377153a2985a9, type: 2}
 --- !u!54 &3136875855499504009
 Rigidbody:
   m_ObjectHideFlags: 0

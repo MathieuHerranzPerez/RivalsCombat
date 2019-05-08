@@ -79,7 +79,7 @@ public class Pulsor : ProjectilWeapon
             
             lastRightTriggerValue = cube.input.RightTrigger;
         }
-        else if(currentPulse != null)
+        if(currentPulse != null)
         {
             if (leftTriggerValue > 0.05f)
             {

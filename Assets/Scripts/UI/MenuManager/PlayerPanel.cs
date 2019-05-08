@@ -2,6 +2,7 @@
 
 public class PlayerPanel : MonoBehaviour
 {
+    public string playerObjectName;
     public Player player;
     public bool hasControllerAssigned { get; private set; }
 
@@ -22,6 +23,11 @@ public class PlayerPanel : MonoBehaviour
     void Awake()
     {
         hasControllerAssigned = false;
+    }
+
+    void Start()
+    {
+        player = GameObject.Find(playerObjectName).GetComponent<Player>();
     }
 
     void Update()

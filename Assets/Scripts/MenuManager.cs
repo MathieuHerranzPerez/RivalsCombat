@@ -24,6 +24,7 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
+        Cursor.visible = false;
         isStartPhase = true;
     }
 

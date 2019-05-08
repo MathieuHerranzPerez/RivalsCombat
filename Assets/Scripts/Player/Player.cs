@@ -44,4 +44,10 @@ public class Player : MonoBehaviour
     {
         this.cubeWeaponPrefab = weaponPrefab;
     }
+
+    public void ResetAll()
+    {
+        playerNumber = 0;
+        input.ResetAll();
+    }
 }

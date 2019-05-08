@@ -5,6 +5,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CubeSpawner cubeSpawner = default;
 
+    void Awake()
+    {
+        Cursor.visible = false;
+    }
+
     void Start()
     {
         InitCubeSpawner();

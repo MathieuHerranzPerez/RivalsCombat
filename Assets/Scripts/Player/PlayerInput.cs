@@ -74,7 +74,6 @@ public class PlayerInput : MonoBehaviour
 
         // button
         aBtn = InputNameManager.GetAName(controllerNumber);
-        
         bBtn = InputNameManager.GetBName(controllerNumber);
         xBtn = InputNameManager.GetXName(controllerNumber);
         yBtn = InputNameManager.GetYName(controllerNumber);
@@ -178,5 +177,30 @@ public class PlayerInput : MonoBehaviour
                 return Input.GetButtonUp(rightStickBtn);
         }
         return false;
+    }
+
+    public void ResetAll()
+    {
+        controllerNumber = 0;
+
+        aBtn = "";
+        bBtn = "";
+        xBtn = "";
+        yBtn = "";
+        leftBumper = "";
+        rightBumper = "";
+        backBtn = "";
+        startBtn = "";
+        leftStickBtn = "";
+        rightStickBtn = "";
+
+        leftTriggerAxis = "";
+        rightTriggerAxis = "";
+        horizontalAxis = "";
+        verticalAxis = "";
+        dPadHorizontal = "";
+        dPadVertical = "";
+        rightHorizontalAxis = "";
+        rightVerticalAxis = "";
     }
 }

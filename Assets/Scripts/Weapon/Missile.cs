@@ -39,12 +39,18 @@ public class Missile : Bullet
         if (!IsCollided)
         {
             IsCollided = true;
-            Explode();
+            Explode(collision.gameObject);
         }
     }
 
-    protected virtual void Explode() 
+    protected virtual void Explode(GameObject other) 
     {
+        // DAMAGE
+        Cube cubeOther = null;
+        if(other != null)
+        {
+            cubeOther = other.GetComponent<Cube>();
+        }
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider collider in colliders)
         {
@@ -52,14 +58,19 @@ public class Missile : Bullet
             if (targetRigidBody)
             {
                 Cube target = targetRigidBody.GetComponent<Cube>();
-                if (target)
+                if (target && target != cubeOther)
                 {
                     float damageAmount = CalculateDamage(targetRigidBody.position);
                     target.TakeDamageFormBullet(damageAmount);
                 }
+                else if(target && target == cubeOther)
+                {
+                    target.TakeDamageFormBullet(maxDamage);
+                }
             }
         }
 
+        // FORCE
         Collider[] collidersToAddForce = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider collider in collidersToAddForce)
         {

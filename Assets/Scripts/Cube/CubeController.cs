@@ -24,7 +24,6 @@ public class CubeController : MonoBehaviour
 
     private CubeMotor motor;
     private bool canJump = true;
-    private float time = 0f;
     private Material previousMaterial;
     private Renderer cubeRenderer;
 
