@@ -32,7 +32,8 @@ public class CubeSpawner : MonoBehaviour
 
         foreach (Player p in listPlayer)
         {
-            Spawn(p);
+            Spawn(p, spawnIndex);
+            ++spawnIndex;
         }
     }
 
@@ -50,15 +51,15 @@ public class CubeSpawner : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-        Spawn(p);
+        int randomIndex = Random.Range(0, listSpawnPoint.Count);
+        Spawn(p, randomIndex);
     }
 
-    private void Spawn(Player p)
+    private void Spawn(Player p, int spawnIndex)
     {
         // instantiate a cube
         GameObject cubeCloneGO = (GameObject)Instantiate(cubePrefab, listSpawnPoint[spawnIndex].position, Quaternion.identity, cubeContainerGO.transform);
-        spawnIndex = (spawnIndex == listSpawnPoint.Count - 1) ? 0 : spawnIndex + 1;
-        
+
         Cube cube = cubeCloneGO.GetComponent<Cube>();
         // give it a cubeSpawner
         cube.SetCubeSpawner(this);
@@ -71,8 +72,5 @@ public class CubeSpawner : MonoBehaviour
 
         // give it to the camera
         MultipleTargetCamera.Instance.AddTarget(cube.transform);
-
-        // change its color
-        // TODO
     }
 }

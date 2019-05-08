@@ -21,6 +21,7 @@ public class Cube : MonoBehaviour
     private WeaponHolder weaponHolder = default;
 
     // ---- INTERN ----
+    private int team = 0;
     private int lifePoint;
     private CubeSpawner cubeSpawner;
     private CubeController cubeController;
@@ -56,6 +57,16 @@ public class Cube : MonoBehaviour
     public void SetCubeSpawner(CubeSpawner cubeSpawner)
     {
         this.cubeSpawner = cubeSpawner;
+    }
+
+    public void SetTeam(int team)
+    {
+        this.team = team;
+    }
+
+    public int GetTeam()
+    {
+        return this.team;
     }
 
     public CubeController GetCubeController()

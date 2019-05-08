@@ -44,10 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701a0c9e0c1194c4593dc76b0982f202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToSpawn: 3
   cubePrefab: {fileID: 5221978326068958127, guid: 2ee09165aef467f42a71655f604c767a,
     type: 3}
   cubeContainerGO: {fileID: 3764363670068792287}
   listSpawnPoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

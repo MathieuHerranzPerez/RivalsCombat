@@ -17,4 +17,11 @@ public abstract class Bullet : MonoBehaviour
     {
         rBody.velocity = direction * rBody.velocity.magnitude;
     }
+
+    public void InverseHorizontalVelocity()
+    {
+        Vector3 newVelocity = new Vector3(-rBody.velocity.x, rBody.velocity.y, -rBody.velocity.z);
+        rBody.velocity = newVelocity;
+
+    }
 }

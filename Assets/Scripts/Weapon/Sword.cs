@@ -111,7 +111,10 @@ public class Sword : CubeWeapon
     public void NotifyReflection(Bullet bullet)
     {
         Vector3 direction = new Vector3(cube.input.Horizontal, cube.input.Vertical, 0f).normalized;
-        bullet.ChangeVelocity(direction);
+        if (direction != Vector3.zero)
+            bullet.ChangeVelocity(direction);
+        else
+            bullet.InverseHorizontalVelocity();
     }
 
     private void StopReflect()

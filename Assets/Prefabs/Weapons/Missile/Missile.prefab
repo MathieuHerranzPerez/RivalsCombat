@@ -14505,8 +14505,8 @@ MonoBehaviour:
   explosionRadius: 3
   explosionEffectPrefab: {fileID: 994155281216061446, guid: 82633ff3a665a7d49ad92ff3e4aaf875,
     type: 3}
-  camShakeMagnitude: 0.1
-  camShakeRotation: 0.1
+  camShakeMagnitude: 0.15
+  camShakeRotation: 0.15
   camShakeTime: 0.2
 --- !u!54 &3136875855499504009
 Rigidbody:
@@ -14755,6 +14755,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4516000842543363442, guid: fa6c89466aaf24841ac8617380e5a934,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b4bdac823e6cb374598ee364fef64858, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa6c89466aaf24841ac8617380e5a934, type: 3}
 --- !u!4 &2892837775739271191 stripped

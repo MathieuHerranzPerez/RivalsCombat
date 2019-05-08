@@ -141,7 +141,7 @@ public class MissileLauncher : ProjectilWeapon
             time += Time.deltaTime;
             yield return null;
         }
-        ParticleSystem p = (ParticleSystem)Instantiate(endInvisibilityEffect, transform.position, transform.rotation);
+        ParticleSystem p = (ParticleSystem)Instantiate(endInvisibilityEffect, transform.position, transform.rotation, transform);
         Destroy(p, 2f);
         cube.GetCubeController().SetVisible();
     }
